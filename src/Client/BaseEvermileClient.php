@@ -86,33 +86,33 @@ class BasePorterClient implements PorterClientInterface
       $base64Credentials = base64_encode($credentials);
 
       // Instantiate a Guzzle client
-      $client = new Client();
+      // $client = new Client();
 
-      // Define the request parameters
-      $requestParams = [
-         'headers' => [
-            'Authorization' => 'Basic ' . $base64Credentials,
-            'Content-Type' => 'application/x-www-form-urlencoded',
-         ],
-         'form_params' => [
-            'grant_type' => 'client_credentials',
-         ],
-      ];
+      // // Define the request parameters
+      // $requestParams = [
+      //    'headers' => [
+      //       'Authorization' => 'Basic ' . $base64Credentials,
+      //       'Content-Type' => 'application/x-www-form-urlencoded',
+      //    ],
+      //    'form_params' => [
+      //       'grant_type' => 'client_credentials',
+      //    ],
+      // ];
 
-      $authTokenUrl = "https://auth.prod.porter.io/oauth2/token";
-      if (strpos($this->getApiBase(), 'sandbox') !== false) {
-         $authTokenUrl = "https://auth.sandbox.porter.io/oauth2/token";
-      }
-      // Make the POST request
-      $response = $client->post($authTokenUrl, $requestParams);
+      // $authTokenUrl = "https://auth.prod.porter.io/oauth2/token";
+      // if (strpos($this->getApiBase(), 'sandbox') !== false) {
+      //    $authTokenUrl = "https://auth.sandbox.porter.io/oauth2/token";
+      // }
+      // // Make the POST request
+      // $response = $client->post($authTokenUrl, $requestParams);
 
-      // Get the response body as a string
-      $responseBody = $response->getBody()->getContents();
+      // // Get the response body as a string
+      // $responseBody = $response->getBody()->getContents();
 
-      // Decode the JSON response
-      $result = json_decode($responseBody, true);
+      // // Decode the JSON response
+      // $result = json_decode($responseBody, true);
 
-      return $result['access_token'];
+      // return $result['access_token'];
    }
 
 
@@ -126,23 +126,23 @@ class BasePorterClient implements PorterClientInterface
 
    public function request($method, $path, $params)
    {
-      $client = new Client([
-         'headers' => [
-            'accept' => 'application/json',
-            'content-type' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->getAccessToken(),
-            'X-PORTER-MERCHANT-ID' => $this->getMerchantID()
-         ]
-      ]);
+      // $client = new Client([
+      //    'headers' => [
+      //       'accept' => 'application/json',
+      //       'content-type' => 'application/json',
+      //       'Authorization' => 'Bearer ' . $this->getAccessToken(),
+      //       'X-PORTER-MERCHANT-ID' => $this->getMerchantID()
+      //    ]
+      // ]);
 
-      $api = $this->getApiBase() . $path;
+      // $api = $this->getApiBase() . $path;
 
-      $response = $client->request($method, $api, [
-         'http_errors' => true,
-         'body' => json_encode($params)
-      ]);
+      // $response = $client->request($method, $api, [
+      //    'http_errors' => true,
+      //    'body' => json_encode($params)
+      // ]);
 
-      return $this->validateResponse($response);
+      // return $this->validateResponse($response);
    }
 
    /**
