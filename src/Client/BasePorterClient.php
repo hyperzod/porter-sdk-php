@@ -33,7 +33,7 @@ class BasePorterClient implements PorterClientInterface
    /**
     * Gets the Api Key used by the client to send requests.
     *
-    * @return null|string the Merchant ID used by the client to send requests
+    * @return null|string the Api Key used by the client to send requests
     */
    public function getApiKey()
    {

@@ -8,9 +8,9 @@ namespace Hyperzod\PorterSdkPhp\Client;
 interface BasePorterClientInterface
 {
    /**
-    * Gets the Client ID used by the client to send requests.
+    * Gets the Api Key used by the client to send requests.
     *
-    * @return null|string the Client ID used by the client to send requests
+    * @return null|string the Api Key used by the client to send requests
     */
    public function getApiKey();
 
