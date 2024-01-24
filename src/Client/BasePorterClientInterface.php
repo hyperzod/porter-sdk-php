@@ -12,21 +12,7 @@ interface BasePorterClientInterface
     *
     * @return null|string the Client ID used by the client to send requests
     */
-   public function getClientID();
-
-   /**
-    * Gets the Client Secret used by the client to send requests.
-    *
-    * @return null|string the Client Secret used by the client to send requests
-    */
-   public function getClientSecret();
-
-   /**
-    * Gets the Merchant ID used by the client to send requests.
-    *
-    * @return null|string the Merchant ID used by the client to send requests
-    */
-   public function getMerchantID();
+   public function getApiKey();
 
    /**
     * Gets the base URL for Porter's API.

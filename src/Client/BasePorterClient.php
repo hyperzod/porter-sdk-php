@@ -20,12 +20,10 @@ class BasePorterClient implements PorterClientInterface
     * @param string $api_base the base URL for Porter's API
     */
 
-   public function __construct($client_id, $client_secret, $merchant_id, $api_base)
+   public function __construct($api_key, $api_base)
    {
       $config = $this->validateConfig(array(
-         "client_id" => $client_id,
-         "client_secret" => $client_secret,
-         "merchant_id" => $merchant_id,
+         "api_key" => $api_key,
          "api_base" => $api_base
       ));
 
@@ -33,33 +31,13 @@ class BasePorterClient implements PorterClientInterface
    }
 
    /**
-    * Gets the Client ID used by the client to send requests.
-    *
-    * @return null|string the Client ID used by the client to send requests
-    */
-   public function getClientID()
-   {
-      return $this->config['client_id'];
-   }
-
-   /**
-    * Gets the Client Secret used by the client to send requests.
-    *
-    * @return null|string the Client Secret used by the client to send requests
-    */
-   public function getClientSecret()
-   {
-      return $this->config['client_secret'];
-   }
-
-   /**
-    * Gets the Merchant ID used by the client to send requests.
+    * Gets the Api Key used by the client to send requests.
     *
     * @return null|string the Merchant ID used by the client to send requests
     */
-   public function getMerchantID()
+   public function getApiKey()
    {
-      return $this->config['merchant_id'];
+      return $this->config['api_key'];
    }
 
    /**
@@ -80,10 +58,10 @@ class BasePorterClient implements PorterClientInterface
    public function getAccessToken()
    {
       // Combine client_id and client_secret with a colon
-      $credentials = $this->getClientID() . ':' . $this->getClientSecret();
+      // $credentials = $this->getClientID() . ':' . $this->getClientSecret();
 
       // Base64 encode the combined string
-      $base64Credentials = base64_encode($credentials);
+      // $base64Credentials = base64_encode($credentials);
 
       // Instantiate a Guzzle client
       // $client = new Client();
@@ -152,53 +130,21 @@ class BasePorterClient implements PorterClientInterface
     */
    private function validateConfig($config)
    {
-      // client_id
-      if (!isset($config['client_id'])) {
-         throw new InvalidArgumentException('client_id field is required');
+      // api_key
+      if (!isset($config['api_key'])) {
+         throw new InvalidArgumentException('api_key field is required');
       }
 
-      if (!is_string($config['client_id'])) {
-         throw new InvalidArgumentException('client_id must be a string');
+      if (!is_string($config['api_key'])) {
+         throw new InvalidArgumentException('api_key must be a string');
       }
 
-      if ('' === $config['client_id']) {
-         throw new InvalidArgumentException('client_id cannot be an empty string');
+      if ($config['api_key'] === '') {
+         throw new InvalidArgumentException('api_key cannot be an empty string');
       }
 
-      if (preg_match('/\s/', $config['client_id'])) {
-         throw new InvalidArgumentException('client_id cannot contain whitespace');
-      }
-
-      if (!isset($config['client_secret'])) {
-         throw new InvalidArgumentException('client_secret field is required');
-      }
-
-      if (!is_string($config['client_secret'])) {
-         throw new InvalidArgumentException('client_secret must be a string');
-      }
-
-      if ('' === $config['client_secret']) {
-         throw new InvalidArgumentException('client_secret cannot be an empty string');
-      }
-
-      if (preg_match('/\s/', $config['client_secret'])) {
-         throw new InvalidArgumentException('client_secret cannot contain whitespace');
-      }
-
-      if (!isset($config['client_secret'])) {
-         throw new InvalidArgumentException('client_secret field is required');
-      }
-
-      if (!is_string($config['merchant_id'])) {
-         throw new InvalidArgumentException('merchant_id must be a string');
-      }
-
-      if ('' === $config['merchant_id']) {
-         throw new InvalidArgumentException('merchant_id cannot be an empty string');
-      }
-
-      if (preg_match('/\s/', $config['merchant_id'])) {
-         throw new InvalidArgumentException('merchant_id cannot contain whitespace');
+      if (preg_match('/\s/', $config['api_key'])) {
+         throw new InvalidArgumentException('api_key cannot contain whitespace');
       }
 
       if (!isset($config['api_base'])) {
@@ -209,14 +155,12 @@ class BasePorterClient implements PorterClientInterface
          throw new InvalidArgumentException('api_base must be a string');
       }
 
-      if ('' === $config['api_base']) {
+      if ($config['api_base'] === '') {
          throw new InvalidArgumentException('api_base cannot be an empty string');
       }
 
       return [
-         "client_id" => $config['client_id'],
-         "client_secret" => $config['client_secret'],
-         "merchant_id" => $config['merchant_id'],
+         "api_key" => $config['api_key'],
          "api_base" => $config['api_base'],
       ];
    }
