@@ -20,11 +20,4 @@ interface BasePorterClientInterface
     * @return string the base URL for Porter's API
     */
    public function getApiBase();
-
-   /**
-    * Get Access Token
-    *
-    * @return string the access token
-    */
-   public function getAccessToken();
 }

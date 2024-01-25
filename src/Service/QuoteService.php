@@ -16,6 +16,6 @@ class QuoteService extends AbstractService
     */
    public function create(array $params)
    {
-      return $this->request(HttpMethodEnum::POST, '/quote', $params);
+      return $this->request(HttpMethodEnum::POST, '/get_quote', $params);
    }
 }

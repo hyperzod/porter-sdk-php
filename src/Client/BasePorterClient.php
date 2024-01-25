@@ -16,7 +16,7 @@ class BasePorterClient implements PorterClientInterface
     * Initializes a new instance of the {@link BasePorterClient} class.
     *
     * The constructor takes two arguments.
-    * @param string $client_id the Client ID of the client
+    * @param string $api_key the API Key for Porter's API
     * @param string $api_base the base URL for Porter's API
     */
 
@@ -51,50 +51,6 @@ class BasePorterClient implements PorterClientInterface
    }
 
    /**
-    * Get Access Token
-    *
-    * @return string the access token
-    */
-   public function getAccessToken()
-   {
-      // Combine client_id and client_secret with a colon
-      // $credentials = $this->getClientID() . ':' . $this->getClientSecret();
-
-      // Base64 encode the combined string
-      // $base64Credentials = base64_encode($credentials);
-
-      // Instantiate a Guzzle client
-      // $client = new Client();
-
-      // // Define the request parameters
-      // $requestParams = [
-      //    'headers' => [
-      //       'Authorization' => 'Basic ' . $base64Credentials,
-      //       'Content-Type' => 'application/x-www-form-urlencoded',
-      //    ],
-      //    'form_params' => [
-      //       'grant_type' => 'client_credentials',
-      //    ],
-      // ];
-
-      // $authTokenUrl = "https://auth.prod.porter.io/oauth2/token";
-      // if (strpos($this->getApiBase(), 'sandbox') !== false) {
-      //    $authTokenUrl = "https://auth.sandbox.porter.io/oauth2/token";
-      // }
-      // // Make the POST request
-      // $response = $client->post($authTokenUrl, $requestParams);
-
-      // // Get the response body as a string
-      // $responseBody = $response->getBody()->getContents();
-
-      // // Decode the JSON response
-      // $result = json_decode($responseBody, true);
-
-      // return $result['access_token'];
-   }
-
-
-   /**
     * Sends a request to Porter's API.
     *
     * @param string $method the HTTP method
@@ -104,23 +60,27 @@ class BasePorterClient implements PorterClientInterface
 
    public function request($method, $path, $params)
    {
-      // $client = new Client([
-      //    'headers' => [
-      //       'accept' => 'application/json',
-      //       'content-type' => 'application/json',
-      //       'Authorization' => 'Bearer ' . $this->getAccessToken(),
-      //       'X-PORTER-MERCHANT-ID' => $this->getMerchantID()
-      //    ]
-      // ]);
+      try {
+         $client = new Client([
+            'headers' => [
+               'accept' => 'application/json',
+               'content-type' => 'application/json',
+               'X-API-KEY' => $this->getApiKey()
+            ]
+         ]);
 
-      // $api = $this->getApiBase() . $path;
+         $api = $this->getApiBase() . $path;
 
-      // $response = $client->request($method, $api, [
-      //    'http_errors' => true,
-      //    'body' => json_encode($params)
-      // ]);
+         $response = $client->request($method, $api, [
+            'http_errors' => true,
+            'body' => json_encode($params)
+         ]);
 
-      // return $this->validateResponse($response);
+         return $this->validateResponse($response);
+      } catch (\GuzzleHttp\Exception\RequestException $e) {
+         // Handle exceptions, e.g., print the error message
+         echo $e->getResponse()->getBody()->getContents();
+      }
    }
 
    /**
